@@ -5,6 +5,9 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  let city = search.substring(search.indexOf("?city=")+6)
+  // console.log(city)
+  return city
 
 }
 
@@ -12,14 +15,79 @@ function getCityFromURL(search) {
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
-
+try{
+  let adventures = await fetch(config.backendEndpoint+`/adventures?city=${city}`)
+return adventures.json()
+}
+catch(err){
+  return null
+}
 }
 
 //Implementation of DOM manipulation to add adventures for the given city from list of adventures
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  adventures.forEach((key) => {
+    // let div = document.getElementById("data")
 
+    // let anchor = document.createElement("a")
+    // anchor.setAttribute("class","activity-card")
+    // anchor.setAttribute("href",config.backendEndpoint+`/adventures/detail/?adventure=${key.id}`)
+
+    // let img = document.createElement("img")
+    // img.setAttribute("src",key.image)
+
+    // let textDivOne = document.createElement("div")
+    // textDivOne.setAttribute("class","adventure-text d-flex justify-content-between")
+    // let name = document.createElement("p")
+    // let costPerHead = document.createElement("p")
+    // name.innerText = key.name
+    // costPerHead.innerText = key.currency+key.costPerHead
+    // textDivOne.append(name,costPerHead)
+
+
+
+    // let textDivTwo = document.createElement("div")
+    // textDivTwo.setAttribute("class","adventure-text d-flex justify-content-between")
+    // let durationText = document.createElement("p")
+    // let duration = document.createElement("p")
+    // durationText.innerText = "Duration"
+    // duration.innerText = key.duration + " Hours"
+    // textDivTwo.append(durationText,duration)
+
+    // let catBanner = document.createElement("p")
+    // catBanner.setAttribute("class","category-banner")
+    // catBanner.innerText = key.category
+
+    // let col = document.createElement("div")
+    // col.setAttribute("class","col-sm-6 col-lg-3")
+
+    // div.append(col)
+    // col.append(anchor)
+    // anchor.append(img,textDivOne,textDivTwo,catBanner)
+
+    let div = document.getElementById("data")
+    let col = document.createElement("div")
+    col.setAttribute("class","col-sm-6 col-lg-3")
+
+    col.innerHTML = `
+    <a href="${config.backendEndpoint}/adventures/detail/?adventure=${key.id}" class="activity-card" id="${key.id}">
+      <img src=${key.image} alt="">
+      <div class="adventure-text d-flex justify-content-between">
+        <p>${key.name}</p>
+        <p>${key.currency} ${key.costPerHead}</p>
+      </div>
+      <div class="adventure-text d-flex justify-content-between">
+        <p>Duration</p>
+        <p>${key.duration} Hours</p>
+      </div>
+      <p class="category-banner">${key.category}</p>
+    </a>
+    `
+  div.append(col)
+
+  });
 }
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
