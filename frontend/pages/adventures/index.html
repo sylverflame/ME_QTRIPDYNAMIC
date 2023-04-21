@@ -83,7 +83,8 @@
                 </div>
             </div>
             <!-- Display Adventures cards -->
-            <div class="row" id="data"></div>
+            <div class="row" id="data">
+            </div>
         </div>
     </div>
     <!-- Footer -->
@@ -147,6 +148,19 @@
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
             // 2. Invoke saveFiltersToLocalStorage here
 
+            document.getElementById("data").textContent = "";
+            document.getElementById("category-list").textContent = "";
+
+            let duration = event.target.value;
+            filters["duration"] = duration;
+            generateFilterPillsAndUpdateDOM(filters);
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+
+            // TODO: MODULE_FILTERS
+            // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
+
         }
 
         //executed when clear button is clicked on duration filter dropdown
@@ -155,6 +169,14 @@
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
             // 2. Invoke saveFiltersToLocalStorage here
 
+            document.getElementById("data").textContent = "";
+            document.getElementById("category-list").textContent = "";
+            document.getElementById("duration-select").value = ""
+
+            filters["duration"] = "";
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+            saveFiltersToLocalStorage(filters);
         }
 
 
@@ -170,13 +192,13 @@
             filters["category"].push(category);
             filters["category"] = filters["category"].filter(onlyUnique);
 
-
             generateFilterPillsAndUpdateDOM(filters);
             let filteredAdventures = filterFunction(adventures, filters);
             addAdventureToDOM(filteredAdventures);
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //executed when clear button is clicked on category filter dropdown
@@ -190,6 +212,7 @@
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //helper function
