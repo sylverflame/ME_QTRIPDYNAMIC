@@ -72,7 +72,7 @@ function addAdventureToDOM(adventures) {
     col.setAttribute("class","col-sm-6 col-lg-3")
 
     col.innerHTML = `
-    <a href="${config.backendEndpoint}/adventures/detail/?adventure=${key.id}" class="activity-card" id="${key.id}">
+    <a href="detail/?adventure=${key.id}" class="activity-card" id="${key.id}">
       <img src=${key.image} alt="">
       <div class="adventure-text d-flex justify-content-between">
         <p>${key.name}</p>
